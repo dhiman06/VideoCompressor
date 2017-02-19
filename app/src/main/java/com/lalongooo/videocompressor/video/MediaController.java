@@ -75,7 +75,7 @@ public class MediaController {
         }
     }
 
-    public native static int convertVideoFrame(ByteBuffer src, ByteBuffer dest, int destFormat, int width, int height, int padding, int swap);
+//    public native static int convertVideoFrame(ByteBuffer src, ByteBuffer dest, int destFormat, int width, int height, int padding, int swap);
 
     private void didWriteData(final boolean last, final boolean error) {
         final boolean firstWrite = videoConvertFirstWrite;
@@ -226,21 +226,21 @@ public class MediaController {
 
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(path);
-        String width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
-        String height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
+        String height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
+        String width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
         String rotation = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
-
-        long startTime = -1;
-        long endTime = -1;
-
-        int resultWidth = 640;
-        int resultHeight = 360;
 
         int rotationValue = Integer.valueOf(rotation);
         int originalWidth = Integer.valueOf(width);
         int originalHeight = Integer.valueOf(height);
 
-        int bitrate = 450000;
+        long startTime = -1;
+        long endTime = -1;
+
+        int resultWidth = 320;
+        int resultHeight = (resultWidth * originalHeight) / originalWidth;
+
+        int bitrate = 480000;
         int rotateRender = 0;
 
         File cacheFile = new File(
@@ -586,7 +586,7 @@ public class MediaController {
                                                             ByteBuffer rgbBuf = outputSurface.getFrame();
                                                             ByteBuffer yuvBuf = encoderInputBuffers[inputBufIndex];
                                                             yuvBuf.clear();
-                                                            convertVideoFrame(rgbBuf, yuvBuf, colorFormat, resultWidth, resultHeight, padding, swapUV);
+//                                                            convertVideoFrame(rgbBuf, yuvBuf, colorFormat, resultWidth, resultHeight, padding, swapUV);
                                                             encoder.queueInputBuffer(inputBufIndex, 0, bufferSize, info.presentationTimeUs, 0);
                                                         } else {
                                                             Log.e("tmessages", "input buffer not available");
