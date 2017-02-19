@@ -8,10 +8,6 @@ android {
         applicationId "com.lalongooo.videocompressor"
         minSdkVersion 14
         targetSdkVersion 21
-
-        ndk {
-            moduleName "webp"
-        }
     }
 
     buildTypes {
